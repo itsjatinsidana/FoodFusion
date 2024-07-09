@@ -1,0 +1,89 @@
+#login-bg {
+    height: 300px;
+    width: 100%;
+    filter: blur(4px);
+
+
+}
+
+#login-heading {
+    text-align: center;
+    font-style: italic;
+}
+
+#text {
+    position: relative;
+    text-align: center;
+    bottom: 100px;
+
+}
+
+#submit_cnt {
+    background-color: #C19D60;
+    border-radius: 0%;
+}
+
+#login-side-img {
+    height: 500px;
+    width: 450px;
+    position: relative;
+    left: 5px;
+
+}
+#manage-menu-btn{
+   
+    background-color: #C19D60;
+    border-radius: 0%;
+}
+.login-section{
+    margin-top: 20px;
+    
+}
+.login-section a {
+    color: #C19D60;
+}
+#menu-card-img{
+    height: 300px;
+    width: 400px;
+}
+#show-filters{
+    display: none;
+}
+
+#food-category{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+   
+}
+.gallery-filter {
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+.gallery-filter:hover,
+.gallery-filter-active {
+    background-color: #C19D60;
+    color: #fff;
+}
+
+#food-category a{
+
+    text-decoration: none;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color: black;
+    text-transform: capitalize;
+}
+#download-menu{
+    background-color: #C19D60;
+   
+   display: flex;
+  align-items: center;
+
+  flex-wrap: wrap;
+}
