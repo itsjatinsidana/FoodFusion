@@ -21,7 +21,7 @@ function AdminLoginForm() {
       });
     } else {
 
-      var url = "http://localhost:8080/checklogin";
+      var url = `${process.env.REACT_APP_API_URL}checklogin`;
 
 
       fetch(url, { method: "POST", body: formData })
@@ -34,7 +34,8 @@ function AdminLoginForm() {
 
 
       if (ans === "success") {
-        sessionStorage.setItem("un", username);
+        // sessionStorage.setItem("un", username);
+        localStorage.setItem("un", username);
         Swal.fire({
           icon: 'success',
           title: 'login Successful',

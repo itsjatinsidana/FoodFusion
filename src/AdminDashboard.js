@@ -2,9 +2,20 @@ import AdminNavbar from "./AdminNavbar"
 import React, { useEffect } from 'react';
 import $ from 'jquery';
 import PerfectScrollbar from 'perfect-scrollbar';
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const AdminDashboard = () => {
-    const username = sessionStorage.getItem("un");
+    // const username = sessionStorage.getItem("un");
+    const username = localStorage.getItem("un");
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!username) {
+            navigate('/adminlogin');
+        }
+    }, [username, navigate]);
+
 
     useEffect(() => {
         const a = $(".bg");
@@ -44,7 +55,7 @@ export const AdminDashboard = () => {
 
                                 <div className="content-inner fl-wrap">
                                     <div className="content-front">
-                                    
+
                                         <div className="cf-inner">
 
                                             <div className="bg " data-bg="images/services/1.jpg" />
@@ -56,27 +67,27 @@ export const AdminDashboard = () => {
                                             </div>
 
                                         </div>
-                                        
+
                                     </div>
-                                    <a href="managemenu" className="content-back" style={{textDecoration:'none'}}>
+                                    <a href="managemenu" className="content-back" style={{ textDecoration: 'none' }}>
                                         <div className="cf-inner">
-                                        
-                                            <div  className="inner">
-                                         
+                                        <div className="bg " data-bg="images/services/1.jpg" />
+                                            <div className="inner">
+
                                                 <div className="dec-icon">
                                                     <i className="fal fa-fish" />
                                                 </div>
-                                                <p>
+                                                {/* <p>
                                                     Lorem ipsum dolor sit amet, consectetur adipiscing
                                                     elit. Maecenas in pulvinar neque. Nulla finibus
                                                     lobortis pulvinar.
-                                                </p>
+                                                </p> */}
                                             </div>
-                                          
+
                                         </div>
-                                    
+
                                     </a>
-                                    
+
                                 </div>
                             </div>
                             {/*card item end */}
@@ -88,27 +99,38 @@ export const AdminDashboard = () => {
                                             <div className="bg " data-bg="images/services/2.jpg" />
                                             <div className="overlay" />
                                             <div className="inner">
-                                                <h2>Reservations</h2>
-                                                <h4>Manage Reservations</h4>
+                                                <h2>Orders</h2>
+                                                <h4>Manage Orders</h4>
                                             </div>
-                                            <div className="serv-num">02.</div>
+                                            {/* <div className="serv-num">02.</div> */}
                                         </div>
                                     </div>
+
                                     <div className="content-back">
-                                        <div className="cf-inner">
-                                            <div className="inner">
-                                                <div className="dec-icon">
-                                                    <i className="fal fa-carrot" />
+                                        <Link to="/userManageOrders" style={{ textDecoration: "none" }}>
+                                        
+                                            <div className="cf-inner">
+                                            {/* <div className="bg " data-bg="images/services/2.jpg" style={{width:"100%"}}/> */}
+                                           
+                                                <div className="inner">
+                                                <img src="images/services/2.jpg"   alt="img" style={{width:"500px", height:"480px"}}/>
+                                                    {/* <div className="dec-icon">
+                                                        <i className="fal fa-carrot" />
+                                                    </div> */}
+                                                    {/* <p>
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                        elit. Maecenas in pulvinar neque. Nulla finibus
+                                                        lobortis pulvinar.
+                                                    </p> */}
                                                 </div>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit. Maecenas in pulvinar neque. Nulla finibus
-                                                    lobortis pulvinar.
-                                                </p>
                                             </div>
-                                        </div>
+
+                                        </Link>
                                     </div>
+
+
                                 </div>
+
                             </div>
                             {/*card item end */}
                             {/*card item */}
@@ -122,20 +144,21 @@ export const AdminDashboard = () => {
                                                 <h2>FeedBacks</h2>
                                                 <h4>Manage FeedBacks</h4>
                                             </div>
-                                            <div className="serv-num">03.</div>
+                                          
                                         </div>
                                     </div>
                                     <div className="content-back">
                                         <div className="cf-inner">
+                                        <div className="bg " data-bg="images/services/3.jpg" />
                                             <div className="inner">
                                                 <div className="dec-icon">
                                                     <i className="fal fa-utensils-alt" />
                                                 </div>
-                                                <p>
+                                                {/* <p>
                                                     Lorem ipsum dolor sit amet, consectetur adipiscing
                                                     elit. Maecenas in pulvinar neque. Nulla finibus
                                                     lobortis pulvinar.
-                                                </p>
+                                                </p> */}
                                             </div>
                                         </div>
                                     </div>
@@ -161,7 +184,7 @@ export const AdminDashboard = () => {
                 <div className="section-bg">
                     <div className="bg" data-bg="images/bg/dec/section-bg.png" />
                 </div>
-            </section>
+            </section >
         </>
     )
 }

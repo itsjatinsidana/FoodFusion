@@ -1,83 +1,126 @@
-function UserNavbar() {
+import { Link } from "react-router-dom";
+import { fontAwesome } from "fontawesome";
+import { useState } from "react";
 
-    return (
-    
+
+function UserNavbar({ length }) {
+
+
+  console.log("length is ", length)
+  const user_name = localStorage.getItem("username");
+
+  const handleLogout = () => {
+    sessionStorage.clear();
+    window.location.href = "/userlogin";
+    localStorage.removeItem("useremail");
+    localStorage.removeItem("username");
+    localStorage.clear();
+
+  }
+
+  const myFunction = () => {
+
+    var x = document.getElementById("myTopnav");
+
+    if (x.className != "topnav") {
+      x.classList = "";
+      x.classList.add("topnav")
+      x.style.visibility = "visible"
+    }
+    else {
+      x.classList.remove("topnav")
+      x.style.visibility = "hidden";
+    }
+
+
+  }
+
+
+
+  return (
+
     <>
 
-        <header className="main-header">
-      
+      <header className="main-header">
+
         <div className="header-inner  fl-wrap">
           <div className="container">
             <div className="header-container fl-wrap">
-              <a href="index.html" className="logo-holder">
-                <img src="images/logo.png" alt="" />
+              <a href="/userhome" className="logo-holder">
+                <img src="images/food.jpg" className="logo-img" alt="" style={{ height: "40px", width: "180px" }} />
+
               </a>
+              <div className="show-reserv_button show-rb" onClick={handleLogout}>
+                <span>LogOut</span> <i className="fal fa-bookmark" />
+              </div>
               <div className="show-reserv_button show-rb">
-                <span>Reservation</span> <i className="fal fa-bookmark" />
+                <span>{user_name}</span> <i className="fal fa-bookmark" />
               </div>
-              <div className="show-share-btn showshare htact">
-                <i className="fal fa-bullhorn" />{" "}
-                <span className="header-tooltip">Share</span>
-              </div>
+
               <div className="show-cart sc_btn htact">
                 <i className="fal fa-shopping-bag" />
-                <span className="show-cart_count">3</span>
-                <span className="header-tooltip">Your Cart</span>
+                <span className="show-cart_count">{length}</span>
+                <Link to="/userviewcart" style={{ textDecoration: "none", color: "black", position: "absolute", top: "70px" }}><span className="header-tooltip">Your Cart</span></Link>
+
+              </div>
+              <div className="bars">
+                <a href="javascript:void(0);" className="icon" onClick={myFunction}>
+                  <i class="fa fa-bars"></i>
+                </a>
               </div>
               {/* nav-button-wrap*/}
-              <div className="nav-button-wrap">
-                <div className="nav-button">
+              <div className="nav-button-wrap " >
+                {/* <div className="icon" onClick={myFunction}> */}
+                {/* <span />
                   <span />
-                  <span />
-                  <span />
-                </div>
+                  <span /> */}
+                {/* <i class="fa fa-bars"></i>
+                </div> */}
               </div>
               {/* nav-button-wrap end*/}
               {/*  navigation */}
-              <div className="nav-holder main-menu">
+              <div className="nav-holder main-menu topnav" id="myTopnav">
                 <nav>
                   <ul>
                     <li>
-                      <a href="/userhome" className="act-link">
-                        Home 
-                      </a>
+                      <Link to="/userhome" className="act-link">
+                        Home
+                      </Link>
                       {/*second level */}
-                      
+
                       {/*second level end*/}
                     </li>
                     <li>
-                      <a href="/userviewmenu">
+                      <Link to="/userviewmenu">
                         Menu
-                        
-                      </a>
-                   
+
+                      </Link>
+
                     </li>
                     <li>
-                      <a href="about.html">About</a>
+                      <Link to="#">About</Link>
                     </li>
                     <li>
-                      <a href="contact.html">Contact</a>
+                      <Link to="#">Contact</Link>
                     </li>
                     <li>
-                      <a href="blog.html">News</a>
+                      <Link to="/userviewOrder">View Orders</Link>
                     </li>
                     <li>
-                      <a href="#">
+                      <Link to="#">
                         Pages
                         <i className="fas fa-caret-down" />
-                      </a>
+                      </Link>
                       {/*second level */}
                       <ul>
                         <li>
-                          <a href="shop.html">Shop</a>
+                          <Link to="/usersignup">User Signup</Link>
                         </li>
                         <li>
-                          <a href="product-single.html">Product Single</a>
+                          <Link to="/userlogin">User Login</Link>
                         </li>
-                        <li>
-                          <a href="cart.html">Cart</a>
-                        </li>
-                        <li>
+
+                        {/* <li>
                           <a href="gallery.html">Gallery</a>
                         </li>
                         <li>
@@ -88,11 +131,13 @@ function UserNavbar() {
                         </li>
                         <li>
                           <a href="coming-soon.html">Coming Soon</a>
-                        </li>
+                        </li> */}
                       </ul>
                       {/*second level end*/}
+
                     </li>
                   </ul>
+
                 </nav>
               </div>
               {/* navigation  end */}
@@ -178,9 +223,9 @@ function UserNavbar() {
         </div>
         {/* header-inner end  */}
       </header>
-      
-     </> 
-    )
-    
+
+    </>
+  )
+
 }
 export default UserNavbar;

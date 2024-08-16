@@ -8,7 +8,7 @@ export const UserSignup = () => {
     const [userPassword, setUserPassword] = useState('');
     const [userconfirmPassword, setUserConfirmPassword] = useState('');
     const [userNumber, setUserNumber] = useState('');
-    const [userAddress, setUserAddress] = useState('');
+    // const [userAddress, setUserAddress] = useState('');
     const phoneNumberRegex = /^\d{10}$/;
 
     function UserSignupForm(event) {
@@ -19,9 +19,9 @@ export const UserSignup = () => {
         formdata.append("username", userName);
         formdata.append("userpassword", userPassword);
         formdata.append("usernumber", userNumber);
-        formdata.append("useraddress", userAddress);
+        // formdata.append("useraddress", userAddress);
 
-        if (userName === "" || userEmail === "" || userPassword === "" || userNumber === "" || userAddress === "") {
+        if (userName === "" || userEmail === "" || userPassword === "" || userNumber === "" ) {
             Swal.fire({
                 icon: 'error',
                 title: 'oops...',
@@ -52,7 +52,7 @@ export const UserSignup = () => {
 
         }
         else {
-            var url = "http://localhost:8080/usersignup";
+            var url = `${process.env.REACT_APP_API_URL}usersignup`;
 
 
             fetch(url, { method: "POST", body: formdata })
@@ -198,7 +198,7 @@ export const UserSignup = () => {
 
                                                 />
                                             </div>
-                                            <div className="col-sm-12">
+                                            {/* <div className="col-sm-12">
                                                 <input
                                                     type="text"
                                                     name="Address"
@@ -208,7 +208,7 @@ export const UserSignup = () => {
                                                     onChange={(e) => setUserAddress(e.target.value)}
 
                                                 />
-                                            </div>
+                                            </div> */}
 
                                         </div>
                                         <button
@@ -255,7 +255,12 @@ export const UserSignup = () => {
                 </div>
             </section>
 
-
+            <div className="footer-bottom fl-wrap footerbottom" style={{ marginTop: "10px" }}>
+                            <div className="copyright">© FoodFusion 2024 . All rights reserved. </div>
+                            <div className="designedby">
+                                <a href='https://jatinsidana.netlify.app/'> <h5 className='copyright'>Designed by Jatin Sidana</h5></a>
+                            </div>
+                        </div>
 
 
 

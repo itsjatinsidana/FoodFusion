@@ -14,4 +14,6 @@ const menuItemSlice = createSlice({
     }
 })
 export const{setMenuItems}=menuItemSlice.actions;
+export const selectMenuItems = (state) => state.menu.AllItems;
+// export const selectMenuItems = (state) => state.menuItem.AllItems;
 export default menuItemSlice.reducer;

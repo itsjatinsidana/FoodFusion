@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import AdminNavbar from "./AdminNavbar";
 
 export const UserViewDetails = () => {
     const[userDetails,setUserDetails] = useState([]);
 
     const getUserDetails = async () => {
         try {
-            const response = await fetch("http://localhost:8080/getuserdetails", { method: "GET" });
+            const response = await fetch(`${process.env.REACT_APP_API_URL}getuserdetails`, { method: "GET" });
             const text = await response.text();
             const data = JSON.parse(text.trim());
             setUserDetails(data.ans);
@@ -19,6 +20,11 @@ export const UserViewDetails = () => {
 
     return (
         <>
+        <AdminNavbar/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
             <div className="container mt-3">
                 <h2>User details</h2><br/>
              <div className="table-responsive">

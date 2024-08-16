@@ -1,16 +1,29 @@
 import $ from 'jquery';
 import PerfectScrollbar from 'perfect-scrollbar';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
-
+import { selectMenuItems } from './Store/Slices/menuItem';
 import { useEffect, useState } from 'react';
 import UserNavbar from './UserNavbar';
 import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
+import Banner from './Components/Banner';
+import { useNavigate } from 'react-router-dom';
+
+export const UserViewMenu = ({ fetchCartItems }) => {
+
+    const uEmail = localStorage.getItem("useremail");
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!uEmail) {
+            navigate("/userlogin")
+        }
+    }, [uEmail, navigate])
+
+    const menu = useSelector(selectMenuItems)
 
 
-export const UserViewMenu = () => {
-    const menu = useSelector(state => {
-        return state.menu.AllItems
-    })
+    console.log("menu by redux :", menu)
     useEffect(() => {
         // jQuery code to set background images
         var a = $(".bg");
@@ -30,44 +43,89 @@ export const UserViewMenu = () => {
     }, []);
     const [menuItems, setMenuItems] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('All Items');
+    console.log("menuitem :", menuItems)
+    const items = [...new Set(menuItems?.map(item => item.category_name))];
+    console.log("items :", items)
+    const baseURL = `${process.env.REACT_APP_API_URL}`;
 
-    const items = [...new Set(menuItems.map(item => item.category_name))];
-    const baseURL = 'http://localhost:8080/';
-
-    function addToCart(items_id) {
+    const addToCart = async (items_id, name, price, category_name, photo) => {
         const useremail = sessionStorage.getItem("useremail");
-        alert(items_id);
-        console.log(useremail)
-        
+
+        // console.log("useremail :", useremail, "name:", name, "price: ", price, "category name :", category_name, "PHOTO : ", photo)
+        let clickedItem = menuItems.filter((item) => item.items_id == items_id)
+        // console.log(items);
+        console.log('matched :', clickedItem)
+
+        const formData = new FormData();
+        formData.append('items_id', items_id);
+        formData.append('useremail', useremail);
+        formData.append('name', name);
+        formData.append('price', price);
+        formData.append('category_name', category_name);
+        formData.append('photo', photo);
+
+        console.log("formdata ", formData)
+
+        const url = `${process.env.REACT_APP_API_URL}addtocart`;
+
+
+        try {
+            const response = await fetch(url, { method: "POST", body: formData });
+            const ans = await response.text();
+            if (ans === "success") {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Item Added Successful',
+                    text: 'CheckOut Tour Cart!',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+                fetchCartItems();
+            } else if (ans === "fail") {
+
+                Swal.fire({
+                    icon: 'fail',
+                    title: 'Item Not Added Successful',
+                    text: 'Try Again',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            } else if (ans === "exception") {
+                alert(ans);
+            }
+        } catch (error) {
+            console.error('Error adding category:', error);
+        }
+
     }
     useEffect(() => {
         if (menu.length !== 0) {
-            setSelectedCategory(menu[0].category_name);
+            setSelectedCategory("All Items");
             setMenuItems(menu);
         }
     }, [menu])
 
     return (
         <>
-            <UserNavbar />
+            {/* <UserNavbar /> */}
 
             {/* lodaer  */}
-            <div className="loader-wrap">
+            {/* <div className="loader-wrap">
                 <div className="loader-item">
                     <div className="cd-loader-layer" data-frame={25}>
                         <div className="loader-layer" />
                     </div>
                     <span className="loader" />
                 </div>
-            </div>
+            </div> */}
             {/* loader end  */}
             {/* main start  */}
-            <div id="main">
+            <div id="main" >
                 {/* header  */}
 
                 {/*header end */}
                 {/* wrapper  */}
-                <div id="wrapper">
+                <div id="wrapper" className='menu-wrapper'>
                     {/* content  */}
                     <div className="content">
                         {/*  section  */}
@@ -108,17 +166,19 @@ export const UserViewMenu = () => {
 
                                 <div className="gallery-filters gth " id='food-category' >
                                     <a
-                                        href="#"
+
                                         className={`gallery-filter ${selectedCategory === 'All Items' ? 'gallery-filter-active' : ''}`}
                                         data-filter="*"
                                         onClick={() => setSelectedCategory('All Items')}>
                                         <span></span> All Items
                                     </a>
-                                    {items.map((category, index) => (
+
+                                    {items?.map((category, index) => (
                                         <a
                                             key={index}
-                                            href="#"
+
                                             className={`gallery-filter ${selectedCategory === category ? 'gallery-filter-active' : ''}`}
+
                                             data-filter="*"
                                             onClick={() => setSelectedCategory(category)}
                                         >
@@ -137,9 +197,10 @@ export const UserViewMenu = () => {
                                     style={{ marginBottom: 50 }}
                                 >
                                     {/* gallery-item*/}
+                                    {console.log({ menuItems })}
                                     {menuItems
-                                        .filter(menuItem => selectedCategory === 'All Items' || menuItem.category_name === selectedCategory)
-                                        .map((menuItem, index) => (
+                                        ?.filter(menuItem => selectedCategory === 'All Items' || menuItem.category_name === selectedCategory)
+                                        ?.map((menuItem, index) => (
 
                                             <div className="gallery-item desserts" key={index}>
 
@@ -163,7 +224,7 @@ export const UserViewMenu = () => {
                                                     <div className="grid-item_price">
                                                         <span>RS. {menuItem.price}</span>
 
-                                                        <div className="add_cart" onClick={() => addToCart(menuItem.items_id)}>Add To Cart</div>
+                                                        <div className="add_cart" onClick={() => addToCart(menuItem.items_id, menuItem.name, menuItem.price, menuItem.category_name, menuItem.photo)}>Add To Cart</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -185,10 +246,16 @@ export const UserViewMenu = () => {
                             </div>
                         </section>
 
-
+                        <div className="footer-bottom fl-wrap footerbottom" style={{ marginTop: "200px" }}>
+                            <div className="copyright">© FoodFusion 2024 . All rights reserved. </div>
+                            <div className="designedby">
+                                <a href='https://jatinsidana.netlify.app/'> <h5 className='copyright'>Designed by Jatin Sidana</h5></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
 
 
         </>

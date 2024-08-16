@@ -3,6 +3,7 @@ import AdminNavbar from "./AdminNavbar";
 import $ from 'jquery';
 import PerfectScrollbar from 'perfect-scrollbar';
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const AdminManageMenu = () => {
     const [categories, setCategories] = useState([]);
@@ -15,10 +16,18 @@ export const AdminManageMenu = () => {
     const [menuItems, setMenuItems] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
 
+    const username = localStorage.getItem("un");
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!username) {
+            navigate('/adminlogin');
+        }
+    }, [username, navigate]);
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch("http://localhost:8080/showcategory", { method: "POST" });
+            const response = await fetch(`${process.env.REACT_APP_API_URL}showcategory`, { method: "POST" });
             const text = await response.text();
             const data = JSON.parse(text.trim());
             setCategories(data.ans);
@@ -51,7 +60,7 @@ export const AdminManageMenu = () => {
 
     const fetchMenuItems = async () => {
         try {
-            const response = await fetch("http://localhost:8080/showmenuitems", { method: "POST" });
+            const response = await fetch(`${process.env.REACT_APP_API_URL}showmenuitems`, { method: "POST" });
             const text = await response.text();
             const data = JSON.parse(text.trim());
             setMenuItems(data.ans);
@@ -72,7 +81,7 @@ export const AdminManageMenu = () => {
         const formData = new FormData();
         formData.append('category', category);
 
-        const url = "http://localhost:8080/addmenucategory";
+        const url = `${process.env.REACT_APP_API_URL}addmenucategory`;
 
         try {
             const response = await fetch(url, { method: "POST", body: formData });
@@ -102,7 +111,8 @@ export const AdminManageMenu = () => {
         formData.append('photo', photo);
         formData.append('categoryname', categoryname);
 
-        const url = "http://localhost:8080/addmenuitem";
+        const url = `${process.env.REACT_APP_API_URL}addmenuitem`;
+        // const url = "http://localhost:8080/addmenuitem";
 
         try {
             const response = await fetch(url, { method: "POST", body: formData });
@@ -133,7 +143,7 @@ export const AdminManageMenu = () => {
 
         var formdata = new FormData();
         formdata.append("items_id", items_id);
-        var url = "http://localhost:8080/deletemenuitem";
+        var url = `${process.env.REACT_APP_API_URL}deletemenuitem`;
 
         fetch(url, { method: "POST", body: formdata })
             .then(response => response.text())
@@ -167,7 +177,7 @@ export const AdminManageMenu = () => {
 
     function getMenuItemDetail() {
      
-        var url = "http://localhost:8080/getmenueditdetail";
+        var url = `${process.env.REACT_APP_API_URL}getmenueditdetail`;
         fetch(url, { method: "post" })
             .then(response => response.text())
             .then(ans => renderAsHtml(ans));
@@ -194,7 +204,7 @@ export const AdminManageMenu = () => {
         formdata.append("itemphoto", itemphoto);
         formdata.append("items_id", itemsId); // Append items_id to form data
 
-        var url = "http://localhost:8080/editmenuitem";
+        var url = `${process.env.REACT_APP_API_URL}editmenuitem`;
 
         fetch(url, { method: "POST", body: formdata })
             .then(response => response.text())

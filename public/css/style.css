@@ -205,7 +205,7 @@ blockquote p {
 	top: 0;
 	left: 0;
 	z-index: 2;
-	opacity:0;
+	opacity:1;
 }
 .fl-wrap {
 	float: left;
@@ -689,7 +689,16 @@ blockquote p {
  
 	visibility:visible;
 	z-index:20;
+	display: block;
 }
+@media(max-width:1200px){
+	.nav-holder{
+		visibility: hidden;
+	}
+}
+.nav-holder.open {
+	display: block;
+  }
 .nav-holder nav {
 	position:relative;
 	float: right;

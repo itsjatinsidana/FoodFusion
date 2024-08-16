@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react"
 import Swal from "sweetalert2";
 
-export const UserLogin = () => {
+
+const UserLogin = () => {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
 
     const [username, setUsername] = useState('');
+    const apiUrl = process.env.REACT_APP_API_URL;
+   
 
     useEffect(() => {
         const storedUsername = sessionStorage.getItem('username');
@@ -26,8 +29,9 @@ export const UserLogin = () => {
             });
         } else {
 
-            var url = "http://localhost:8080/checkuserlogin";
-
+            // var url = "http://localhost:8080/checkuserlogin";
+            // var url = "http://165.22.211.208:8080/checkuserlogin";
+            var url = `${process.env.REACT_APP_API_URL}checkuserlogin`;
 
             fetch(url, { method: "POST", body: formData })
                 .then(response => response.json())
@@ -39,8 +43,9 @@ export const UserLogin = () => {
 
 
             if (ans.status === "success") {
-              
+
                 const userName = ans.user_name;
+                localStorage.setItem("username", userName);
                 sessionStorage.setItem("username", userName);
                 Swal.fire({
                     icon: 'success',
@@ -54,6 +59,7 @@ export const UserLogin = () => {
                 });
                 sessionStorage.setItem("useremail", userEmail);
                 updateUserActiveStatus(userEmail);
+                localStorage.setItem("useremail", userEmail);
 
 
 
@@ -71,10 +77,10 @@ export const UserLogin = () => {
         }
 
     }
-  
+
 
     const updateUserActiveStatus = async (useremail) => {
-        var url = "http://localhost:8080/updateuserstatus";
+        var url = `${process.env.REACT_APP_API_URL}updateuserstatus`;
         const formData = new FormData();
         formData.append('useremail', useremail);
 
@@ -200,10 +206,16 @@ export const UserLogin = () => {
                 </div>
             </section>
 
-
+            <div className="footer-bottom fl-wrap footerbottom" style={{ marginTop: "10px" }}>
+                <div className="copyright">© FoodFusion 2024 . All rights reserved. </div>
+                <div className="designedby">
+                    <a href='https://jatinsidana.netlify.app/'> <h5 className='copyright'>Designed by Jatin Sidana</h5></a>
+                </div>
+            </div>
 
 
 
         </>
     )
 }
+export default UserLogin;
